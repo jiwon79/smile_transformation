@@ -1,36 +1,57 @@
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
+const canvas_draw = document.querySelector(".canvas_draw");
+const ctx_draw = canvas_draw.getContext("2d");
+const canvas_show = document.querySelector(".canvas_show");
+const ctx_show = canvas_show.getContext("2d");
 let coord = { x: 0, y: 0 };
 
 document.addEventListener("mousedown", start);
 document.addEventListener("mouseup", stop);
-window.addEventListener("resize", resize);
+// window.addEventListener("resize", resize);
+
+ctx_draw.canvas.width = 500;
+ctx_draw.canvas.height = 500;
+ctx_show.canvas.width = 500;
+ctx_show.canvas.height = 500;
 
 resize();
 
 function resize() {
-  ctx.canvas.width = window.innerWidth;
-  ctx.canvas.height = window.innerHeight;
+  // ctx.canvas.width = window.innerWidth;
+  // ctx.canvas.height = window.innerHeight;
+  ctx_draw.canvas.width = 500;
+  ctx_draw.canvas.height = 500;
 }
-function reposition(event) {
-  coord.x = event.clientX - canvas.offsetLeft;
-  coord.y = event.clientY - canvas.offsetTop;
+
+function reposition_draw(event) {
+  coord.x = event.clientX - canvas_draw.offsetLeft;
+  coord.y = event.clientY - canvas_draw.offsetTop;
 }
+
 function start(event) {
   document.addEventListener("mousemove", draw);
-  reposition(event);
+  reposition_draw(event);
 }
+
 function stop() {
   document.removeEventListener("mousemove", draw);
 }
+
 function draw(event) {
-  ctx.beginPath();
-  ctx.lineWidth = 5;
-  ctx.lineCap = "round";
-  ctx.strokeStyle = "#ACD3ED";
-  ctx.moveTo(coord.x, coord.y);
-  console.log(coord)
-  reposition(event);
-  ctx.lineTo(coord.x, coord.y);
-  ctx.stroke();
+  ctx_draw.beginPath();
+  ctx_draw.lineWidth = 3;
+  ctx_draw.lineCap = "round";
+  ctx_draw.strokeStyle = "#ACD3ED";
+  ctx_show.beginPath();
+  ctx_show.lineWidth = 3;
+  ctx_show.lineCap = "round";
+  ctx_show.strokeStyle = "#ACD1ED";
+
+  ctx_draw.moveTo(coord.x, coord.y);
+  ctx_show.moveTo(coord.x, coord.y);
+  reposition_draw(event);
+  
+  ctx_show.lineTo(coord.x, coord.y);
+  ctx_draw.lineTo(coord.x, coord.y);
+  ctx_draw.stroke();
+  ctx_show.stroke();  
 }

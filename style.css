@@ -2,7 +2,16 @@
   margin: 0;
   padding: 0;
 }
-canvas {
-  width: 100vw;
-  height: 100vh;
+
+.canvas_draw {
+  width: 500px;
+  height: 500px;
+  border: 1px solid #000;
+}
+
+.canvas_show {
+  width: 500px;
+  height: 500px;
+  border: 1px solid #000;
+  /* background-color: antiquewhite; */
 }
