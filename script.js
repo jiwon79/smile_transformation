@@ -36,6 +36,10 @@ function stop() {
   document.removeEventListener("mousemove", draw);
 }
 
+function transformation(point) {
+  return {x: point.x + point.y, y: point.x - point.y}
+}
+
 function draw(event) {
   ctx_draw.beginPath();
   ctx_draw.lineWidth = 3;
@@ -47,11 +51,13 @@ function draw(event) {
   ctx_show.strokeStyle = "#ACD1ED";
 
   ctx_draw.moveTo(coord.x, coord.y);
-  ctx_show.moveTo(coord.x, coord.y);
+  transPoint = transformation(coord);
+  ctx_show.moveTo(transPoint.x, transPoint.y);
   reposition_draw(event);
-  
-  ctx_show.lineTo(coord.x, coord.y);
+
+  transPoint = transformation(coord);  
   ctx_draw.lineTo(coord.x, coord.y);
+  ctx_show.lineTo(transPoint.x, transPoint.y);
   ctx_draw.stroke();
   ctx_show.stroke();  
 }
