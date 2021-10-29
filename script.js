@@ -14,6 +14,7 @@ ctx_show.canvas.width = 500;
 ctx_show.canvas.height = 500;
 
 resize();
+drawGuideLine();
 
 function resize() {
   // ctx.canvas.width = window.innerWidth;
@@ -37,7 +38,39 @@ function stop() {
 }
 
 function transformation(point) {
-  return {x: point.x + point.y, y: point.x - point.y}
+  return {x: point.x + 2*point.y, y: point.x - point.y}
+}
+
+function inverseTransformation(point) {
+  return {x: (point.x + 2*point.y)/3, y: (point.x - point.y)/3}
+}
+
+function drawGuideLine() {
+  ctx_show.beginPath();
+  ctx_draw.beginPath();
+  ctx_show.lineWidth = 1;
+  ctx_draw.lineWidth = 1;  
+  ctx_show.strokeStyle = "#000";
+  ctx_draw.strokeStyle = "#000";
+
+  for (var y=0; y<500; y=y+50) {
+    ctx_show.moveTo(0, y);
+    inversePoint = inverseTransformation({x: 0, y: y})
+    ctx_draw.moveTo(inversePoint.x, inversePoint.y)
+
+    for (var x=0; x<500; x=x+6) {
+      inversePoint = inverseTransformation({x: x, y: y})
+      ctx_show.lineTo(x, y);
+      ctx_show.moveTo(x, y);
+      ctx_draw.lineTo(inversePoint.x, inversePoint.y);
+      ctx_draw.moveTo(inversePoint.x, inversePoint.y);
+
+      ctx_show.closePath();
+      ctx_show.stroke();
+      ctx_draw.closePath();
+      ctx_draw.stroke();
+    }
+  }
 }
 
 function draw(event) {
